@@ -1,0 +1,22 @@
+---
+- name: Replace file content
+  hosts: 192.168.1.11
+  become: yes
+  become_user: root
+  tasks:
+    - name: Replace file content
+      lineinfile:
+        dest: /opt/helloworld.js
+        regexp: '^(\s*)res\.end\(.*\);$'
+        line: ' res.end("Hello from ansible v2\n");'
+      notify:
+        - Restart server_node.service
+    - name: Reload systemd
+      systemd:
+        daemon_reload: yes
+  handlers:
+    - name: Restart server_node.service
+      systemd:
+        name: server_node.service
+        state: restarted
+        enabled: yes
