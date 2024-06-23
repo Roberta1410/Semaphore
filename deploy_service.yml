@@ -1,0 +1,21 @@
+---
+- name: Deploy systemd service
+  hosts: myhosts
+  become: yes
+
+  tasks:
+    - name: Copy systemd service file
+      copy:
+        src: /etc/systemd/system/node.service
+        dest: /etc/systemd/system/node.service
+      notify:
+        - Restart node.service
+    - name: Reload systemd
+      systemd:
+        daemon_reload: yes
+  handlers:
+    - name: Restart node.service
+      systemd:
+        name: node.service
+        state: restarted
+        enabled: yes
