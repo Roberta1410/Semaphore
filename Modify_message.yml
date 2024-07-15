@@ -8,7 +8,7 @@
       lineinfile:
         dest: /opt/helloworld.js
         regexp: '^(\s*)res\.end\(.*\);$'
-        line: ' res.end("Hello!\n");'
+        line: ' res.end("licenta!\n");'
       notify:
         - Restart server_node.service
     - name: Reload systemd
